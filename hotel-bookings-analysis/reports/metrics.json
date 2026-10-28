@@ -1,0 +1,81 @@
+{
+  "source_rows": 119390,
+  "exact_duplicate_rows_removed": 31994,
+  "analysis_rows": 87396,
+  "columns_in_source": 32,
+  "cancellation_rate_after_deduplication": 0.2749,
+  "target_counts_after_deduplication": {
+    "completed": 63371,
+    "canceled": 24025
+  },
+  "missing_values_source": {
+    "children": 4,
+    "country": 488,
+    "agent": 16340,
+    "company": 112593
+  },
+  "excluded_from_model": [
+    "reservation_status",
+    "reservation_status_date",
+    "assigned_room_type",
+    "booking_changes",
+    "company"
+  ],
+  "test_rows": 21849,
+  "models": {
+    "Logistic Regression": {
+      "roc_auc": 0.8562,
+      "average_precision": 0.6713,
+      "accuracy": 0.7659,
+      "precision": 0.5504,
+      "recall": 0.8095,
+      "f1": 0.6553
+    },
+    "Random Forest": {
+      "roc_auc": 0.8751,
+      "average_precision": 0.7287,
+      "accuracy": 0.759,
+      "precision": 0.5392,
+      "recall": 0.8485,
+      "f1": 0.6594
+    }
+  },
+  "highest_roc_auc_model": "Random Forest",
+  "median_lead_time_days": {
+    "completed": 38.0,
+    "canceled": 80.0
+  },
+  "mean_special_requests": {
+    "completed": 0.76,
+    "canceled": 0.536
+  },
+  "hotel_cancellation_rate": {
+    "City Hotel": {
+      "bookings": 53428,
+      "rate": 0.3004
+    },
+    "Resort Hotel": {
+      "bookings": 33968,
+      "rate": 0.2348
+    }
+  },
+  "deposit_cancellation_rate": {
+    "No Deposit": {
+      "bookings": 86251,
+      "rate": 0.2668
+    },
+    "Non Refund": {
+      "bookings": 1038,
+      "rate": 0.947
+    },
+    "Refundable": {
+      "bookings": 107,
+      "rate": 0.243
+    }
+  },
+  "split": {
+    "type": "stratified random holdout",
+    "test_size": 0.25,
+    "random_state": 42
+  }
+}

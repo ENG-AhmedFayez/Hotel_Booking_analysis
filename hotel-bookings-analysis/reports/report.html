@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحليل إلغاءات الحجوزات الفندقية</title>
+<style>
+  :root { --ink:#243440; --muted:#61717b; --blue:#315b73; --sand:#f4f1eb; --line:#d9e0e3; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#eef2f2; color:var(--ink); font:16px/1.8 "Segoe UI",Tahoma,Arial,sans-serif; }
+  main { max-width:980px; margin:36px auto; padding:54px 64px; background:#fff; box-shadow:0 12px 42px #20374412; }
+  header { border-bottom:3px solid var(--blue); padding-bottom:22px; margin-bottom:26px; }
+  .eyebrow { color:var(--blue); letter-spacing:.04em; font-size:14px; font-weight:700; }
+  h1 { font-size:36px; line-height:1.35; margin:8px 0; }
+  h2 { font-size:23px; margin:36px 0 12px; color:var(--blue); }
+  p { margin:10px 0; }
+  .lede { color:var(--muted); max-width:780px; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0; }
+  .card { padding:16px 18px; background:var(--sand); border-top:3px solid var(--blue); }
+  .card strong { display:block; font-size:25px; direction:ltr; text-align:right; }
+  .card span { color:var(--muted); font-size:14px; }
+  table { width:100%; border-collapse:collapse; margin:15px 0; direction:ltr; font-size:14px; }
+  th,td { border-bottom:1px solid var(--line); text-align:center; padding:10px 7px; }
+  th { background:#f4f6f6; }
+  td:first-child,th:first-child { text-align:left; }
+  figure { margin:24px 0; padding:14px; border:1px solid var(--line); }
+  img { max-width:100%; height:auto; display:block; margin:auto; }
+  figcaption { color:var(--muted); font-size:13px; margin-top:8px; }
+  .note { padding:14px 18px; border-right:4px solid #c77b45; background:#fbf6ef; }
+  footer { border-top:1px solid var(--line); color:var(--muted); margin-top:38px; padding-top:16px; font-size:13px; }
+  a { color:var(--blue); }
+  @media(max-width:700px) { main { margin:0; padding:28px 20px; } h1 { font-size:29px; } .cards { grid-template-columns:1fr; } table { font-size:12px; } th,td { padding:7px 4px; } }
+  @media print { body { background:white; } main { margin:0; max-width:none; padding:20mm; box-shadow:none; } figure { break-inside:avoid; } }
+</style>
+</head>
+<body><main>
+<header>
+  <div class="eyebrow">تحليل بيانات الحجوزات</div>
+  <h1>إلغاءات الحجوزات الفندقية</h1>
+  <p class="lede">تحليل وصفي ومقارنة نموذجين لتقدير مخاطر الإلغاء من تفاصيل الحجز المتاحة قبل الوصول.</p>
+</header>
+
+<section>
+  <h2>النتيجة في سطور</h2>
+  <p>بعد استبعاد الصفوف المتطابقة بالكامل، درّبت نموذجين على البيانات. حقق Random Forest أفضل تمييز بين الحجوزات الملغاة والمكتملة، بقيمة ROC-AUC تبلغ 0.875. وعلى عتبة 0.5، التقط النموذج 84.9% من الإلغاءات، وكانت 53.9% من تنبؤاته بالإلغاء صحيحة.</p>
+  <div class="cards">
+    <div class="card"><strong>119,390 → 87,396</strong><span>عدد الصفوف قبل إزالة التطابق وبعدها</span></div>
+    <div class="card"><strong>27.5%</strong><span>معدل الإلغاء بعد التنظيف</span></div>
+    <div class="card"><strong>0.875</strong><span>ROC-AUC لنموذج Random Forest</span></div>
+  </div>
+  <p class="note">حُذف 31,994 صفًا متطابقًا. لا يحتوي الملف على معرّف حجز، لذلك لا يمكن معرفة ما إذا كانت هذه نسخًا مكررة أم حجوزات مستقلة متطابقة. انخفض معدل الإلغاء من 37.0% في الملف الخام إلى 27.5% بعد الحذف؛ لذلك يعرض التقرير هذا القرار وأثره بدل اعتباره تنظيفًا محايدًا.</p>
+</section>
+
+<section>
+  <h2>أنماط من البيانات</h2>
+  <ul>
+    <li>معدل الإلغاء في City Hotel بلغ 30.0%، مقابل 23.5% في Resort Hotel.</li>
+    <li>وسيط الفترة بين الحجز والوصول 80 يومًا للحجوزات الملغاة و38 يومًا للمكتملة.</li>
+    <li>متوسط الطلبات الخاصة 0.54 للحجوزات الملغاة و0.76 للمكتملة.</li>
+    <li>سجلت حجوزات Non Refund معدل إلغاء مرتفعًا قدره 94.7% ضمن 1,038 سجلًا؛ يحتاج هذا النمط إلى مراجعة تعريف الحقل وسياسة البيانات قبل أي استنتاج تشغيلي.</li>
+  </ul>
+  <figure><img src="cancellation_by_hotel.png" alt="معدل الإلغاء حسب الفندق"><figcaption>معدل الإلغاء حسب نوع الفندق بعد إزالة الصفوف المتطابقة.</figcaption></figure>
+  <figure><img src="cancellation_by_lead_time.png" alt="معدل الإلغاء حسب مدة الحجز المسبق"><figcaption>معدل الإلغاء حسب الأيام بين إنشاء الحجز والوصول.</figcaption></figure>
+  <figure><img src="cancellation_by_month.png" alt="معدل الإلغاء حسب شهر الوصول"><figcaption>معدل الإلغاء حسب شهر الوصول.</figcaption></figure>
+</section>
+
+<section>
+  <h2>مقارنة النماذج</h2>
+  <p>استخدمت تقسيمًا طبقيًا عشوائيًا بنسبة 75/25. عولجت القيم الناقصة داخل مسار التدريب، ورُمّزت المتغيرات الفئوية، ووُحّدت المتغيرات الرقمية.</p>
+  <table><thead><tr><th>Model</th><th>ROC-AUC</th><th>Avg. precision</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead>
+  <tbody>
+    <tr><td>Logistic Regression</td><td>0.856</td><td>0.671</td><td>0.766</td><td>0.551</td><td>0.810</td><td>0.656</td></tr>
+    <tr><td><strong>Random Forest</strong></td><td><strong>0.875</strong></td><td><strong>0.729</strong></td><td>0.759</td><td>0.539</td><td><strong>0.849</strong></td><td><strong>0.659</strong></td></tr>
+  </tbody></table>
+  <p>استُبعدت حالة الحجز النهائية وتاريخ تسجيلها لأنها تكشف النتيجة بعد وقوعها. واستُبعد أيضًا نوع الغرفة المخصصة وتعديلات الحجز لأنها قد لا تكون معروفة عند إجراء الحجز.</p>
+  <figure><img src="roc_curve.png" alt="منحنى ROC للنموذجين"><figcaption>مقارنة منحنى ROC على مجموعة الاختبار.</figcaption></figure>
+  <figure><img src="confusion_matrix.png" alt="مصفوفة الالتباس"><figcaption>مصفوفة الالتباس لـRandom Forest عند العتبة الافتراضية.</figcaption></figure>
+  <figure><img src="feature_importance.png" alt="أهمية الخصائص"><figcaption>أعلى خصائص حسب أهمية Random Forest؛ الأهمية لا تثبت السببية.</figcaption></figure>
+</section>
+
+<section>
+  <h2>حدود القراءة</h2>
+  <p>التقييم مبني على تقسيم عشوائي واحد، وليس اختبارًا زمنيًا على حجوزات لاحقة. كما أن معالجة الصفوف المتطابقة تؤثر في تركيب العينة. إذا كان الهدف تشغيل النموذج فعليًا، فالأفضل تثبيت تعريف التكرار، ثم اختبار زمني وضبط عتبة التنبيه وفق تكاليف الفندق.</p>
+</section>
+
+<footer>مصدر البيانات البحثي: Antonio, de Almeida &amp; Nunes (2019), <a href="https://doi.org/10.1016/j.dib.2018.11.126">Hotel booking demand datasets</a>, Data in Brief 22, 41–49.</footer>
+</main></body></html>

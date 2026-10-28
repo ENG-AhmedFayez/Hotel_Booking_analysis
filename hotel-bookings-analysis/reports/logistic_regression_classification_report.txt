@@ -1,0 +1,8 @@
+              precision    recall  f1-score   support
+
+   Completed       0.91      0.75      0.82     15843
+    Canceled       0.55      0.81      0.66      6006
+
+    accuracy                           0.77     21849
+   macro avg       0.73      0.78      0.74     21849
+weighted avg       0.81      0.77      0.78     21849
