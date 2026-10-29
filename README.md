@@ -62,3 +62,7 @@ The script reads `data/hotel_bookings.csv` and writes charts, model metrics, and
 The dataset is **Hotel Booking Demand**, published by Antonio, de Almeida, and Nunes in *Data in Brief* (2019). [Dataset paper](https://doi.org/10.1016/j.dib.2018.11.126).
 
 Built with Python, pandas, scikit-learn, and Matplotlib.
+
+
+## Related project
+[Heart Disease Voting Classifier](https://github.com/ENG-AhmedFayez/heart-disease-voting-classifier) — compare this booking-risk analysis with the heart disease model evaluation.
